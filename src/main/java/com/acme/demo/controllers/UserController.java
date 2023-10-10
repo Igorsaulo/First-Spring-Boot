@@ -3,10 +3,7 @@ package com.acme.demo.controllers;
 import com.acme.demo.entities.User;
 import com.acme.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,14 +17,29 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-
     @GetMapping
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
     @PostMapping
-    public User save(User user) {
+    public User save(@RequestBody User user) {
         return userRepository.save(user);
     }
+
+    @GetMapping(value = "/{id}")
+    public User findById(@PathVariable Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public void deleteById(@PathVariable Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @PutMapping()
+    public User update(@RequestBody User user) {
+        return userRepository.save(user);
+    }
+
 }
